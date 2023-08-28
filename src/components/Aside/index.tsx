@@ -23,7 +23,7 @@ import {
 	ToggleMenu,
 	ThemeToggleFooter
 } from './style'
-import Toggle from '../Toggle'
+import Toggle from './../Toggle'
 
 import { useTheme } from '../../hooks/theme'
 import { logout } from '../../functions/connections/auth'
@@ -72,9 +72,14 @@ const Aside: React.FC = () => {
 					Dashboard
 				</MenuItemLink>
 
-				<MenuItemLink href="/list/entry-balance">
+				<MenuItemLink href="/list/transaction">
 					<MdArrowUpward />
-					Historico
+					Transactions
+				</MenuItemLink>
+
+				<MenuItemLink href="/list/transaction-type">
+					<MdArrowDownward />
+					Transation Type
 				</MenuItemLink>
 
 				<MenuItemButton onClick={showModal}>

@@ -10,7 +10,7 @@ import { useNotification } from './hooks/useNotification'
 
 import { loginRoutes } from './pages/Signin/routes'
 import { dashboardRoutes } from './pages/Dashboard/routes'
-import { listRoutes } from './pages/List/routes'
+import { listTransactionType } from './pages/TransactionType/routes'
 
 import { ThemeProvider } from 'styled-components'
 import { useTheme } from './hooks/theme'
@@ -19,12 +19,13 @@ import GlobalStyles from './styles/styles'
 import { verifyLoggedIn } from './functions/connections/auth'
 
 const routes: RouteObject[] = [...loginRoutes]
-const routesLoggedIn: RouteObject[] = [...dashboardRoutes, ...listRoutes].map(
-	(route) => ({
-		...route,
-		loader: verifyLoggedIn
-	})
-)
+const routesLoggedIn: RouteObject[] = [
+	...dashboardRoutes,
+	...listTransactionType
+].map((route) => ({
+	...route,
+	loader: verifyLoggedIn
+}))
 
 const router: RemixRouter = createBrowserRouter([...routes, ...routesLoggedIn])
 

@@ -4,13 +4,13 @@ import globalReducer from './reducers/globalReducer'
 
 import userReducer from './reducers/userReducer'
 
-import billReducer from './reducers/billReducer'
+import transactionTypeReducer from './reducers/transactionTypeReducer'
 
 export const store = configureStore({
 	reducer: {
 		globalReducer,
 		userReducer,
-		billReducer
+		transactionTypeReducer
 	}
 })
 
