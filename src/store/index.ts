@@ -6,11 +6,14 @@ import userReducer from './reducers/userReducer'
 
 import transactionTypeReducer from './reducers/transactionTypeReducer'
 
+import transactionReducer from './reducers/transactionReducer'
+
 export const store = configureStore({
 	reducer: {
 		globalReducer,
 		userReducer,
-		transactionTypeReducer
+		transactionTypeReducer,
+		transactionReducer
 	}
 })
 
