@@ -12,8 +12,4 @@ export interface Transaction {
 	seller: string
 
 	transactionType: TransactionType
-
-	expirationDate: string
-	totalValue: string
-	monthReference: string
 }
