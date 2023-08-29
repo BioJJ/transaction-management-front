@@ -52,6 +52,40 @@ export default class ConnectionAPI {
 			throw new Error(ERROR_CONNECTION)
 		})
 	}
+
+	static async connectFile<T>(
+		url: string,
+		method: MethodType,
+		body?: unknown
+	): Promise<T> {
+		return ConnectionAPI.callFile<T>(url, method, body).catch((error) => {
+			if (error.response) {
+				switch (error.response.status) {
+					case 401:
+					case 403:
+						throw new Error(ERROR_ACCESS_DANIED)
+					default:
+						throw new Error(ERROR_CONNECTION)
+				}
+			}
+			throw new Error(ERROR_CONNECTION)
+		})
+	}
+
+	static async callFile<T>(
+		url: string,
+		method: MethodType,
+		body?: unknown
+	): Promise<T> {
+		const config: AxiosRequestConfig = {
+			headers: {
+				Authorization: `Bearer ${getAuthorizationToken()}`,
+				'Content-Type': 'multipart/form-data'
+			}
+		}
+
+		return (await axios[method]<T>(url, body, config)).data
+	}
 }
 
 export const connectionAPIGet = async <T>(url: string): Promise<T> => {
@@ -81,4 +115,14 @@ export const connectionAPIPatch = async <T>(
 	body: unknown
 ): Promise<T> => {
 	return ConnectionAPI.connect<T>(url, MethodsEnum.PATCH, body)
+}
+
+export const connectionAPIUploadFile = async <T>(
+	url: string,
+	file: File
+): Promise<T> => {
+	const formData = new FormData()
+	formData.append('txt', file)
+
+	return ConnectionAPI.connectFile<T>(url, MethodsEnum.POST, formData)
 }

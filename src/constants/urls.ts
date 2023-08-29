@@ -10,6 +10,8 @@ export const URL_TRANSACTION_TYPE_ID =
 	'http://localhost:3000/transaction-type/{id}'
 
 export const URL_TRANSACTION = 'http://localhost:3000/transactions'
+export const URL_TRANSACTION_CREATE =
+	'http://localhost:3000/transactions/parse-reader'
 export const URL_TRANSACTION_ID = 'http://localhost:3000/transactions/{id}'
 
 export const URL_CATEGORY = 'http://localhost:3000/category'
