@@ -8,9 +8,27 @@ import formatCurrency from '../../utils/formatCurrency'
 import listOfMonths from '../../utils/months'
 
 import { useTransaction } from './hooks/useTransaction'
+import { useGlobalReducer } from '../../store/reducers/globalReducer/useGlobalReducer'
+
 import Layout from '../../components/Layout'
 
-import { Container, Content } from './style'
+import {
+	ButtonFile,
+	ButtonFileCancel,
+	Container,
+	Content,
+	FileUploadButton,
+	FileUploadContainer,
+	Label,
+	SelectedFileName,
+	UploadInput
+} from './style'
+
+export interface SelectedFile {
+	name: string
+	size: number
+	type: string
+}
 
 const List: React.FC = () => {
 	const [monthSelected, setMonthSelected] = useState<number>(
@@ -20,7 +38,14 @@ const List: React.FC = () => {
 		new Date().getFullYear()
 	)
 
-	const { transactionFiltered } = useTransaction()
+	const [selectedFile, setSelectedFile] = useState<SelectedFile | null | File>(
+		null
+	)
+
+	const [file, setFile] = useState<File | undefined | null>()
+
+	const { transactionFiltered, uploadFile } = useTransaction()
+	const { setNotification } = useGlobalReducer()
 
 	const pageData = {
 		title: 'Transaction',
@@ -31,7 +56,7 @@ const List: React.FC = () => {
 		const uniqueYears: number[] = []
 
 		transactionFiltered.forEach((item) => {
-			const date = new Date(item.expirationDate)
+			const date = new Date(item.data)
 			const year = date.getFullYear()
 
 			if (!uniqueYears.includes(year)) {
@@ -55,6 +80,34 @@ const List: React.FC = () => {
 			}
 		})
 	}, [])
+
+	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const file = event.target.files?.[0]
+		if (file) {
+			setFile(file)
+			const fileDetails: SelectedFile = {
+				name: file.name,
+				size: file.size,
+				type: file.type
+			}
+			setSelectedFile(fileDetails)
+		}
+	}
+
+	const handleUploadButtonClick = async () => {
+		if (selectedFile) {
+			await uploadFile(file as File)
+			setFile(null)
+			setSelectedFile(null)
+		} else {
+			setNotification('Por favor, selecione um arquivo.', 'error')
+		}
+	}
+
+	const handleUploadButtonClear = () => {
+		setFile(null)
+		setSelectedFile(null)
+	}
 
 	const handleMonthSelected = (month: string) => {
 		try {
@@ -89,6 +142,37 @@ const List: React.FC = () => {
 						defaultValue={yearSelected}
 					/>
 				</ContentHeader>
+
+				<FileUploadContainer>
+					{!selectedFile && (
+						<>
+							<Label htmlFor="fileInput">Escolher Arquivo</Label>
+							<UploadInput
+								type="file"
+								id="fileInput"
+								onChange={handleFileChange}
+								accept=".txt"
+							/>
+						</>
+					)}
+					{selectedFile && (
+						<>
+							<SelectedFileName>
+								Arquivo selecionado: {selectedFile.name}
+							</SelectedFileName>
+
+							<FileUploadButton>
+								<ButtonFile onClick={handleUploadButtonClick}>
+									Enviar Arquivo
+								</ButtonFile>
+
+								<ButtonFileCancel onClick={handleUploadButtonClear}>
+									Cancelar
+								</ButtonFileCancel>
+							</FileUploadButton>
+						</>
+					)}
+				</FileUploadContainer>
 
 				<Content>
 					{transactionFiltered.map((item) => (

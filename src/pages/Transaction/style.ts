@@ -4,48 +4,50 @@ export const Container = styled.div``
 
 export const Content = styled.main``
 
-export const Filters = styled.div`
-	width: 100%;
-
+export const FileUploadContainer = styled.div`
 	display: flex;
-	justify-content: center;
+	flex-direction: column;
+	align-items: start;
+	margin-bottom: 40px;
+`
 
-	margin-bottom: 30px;
+export const UploadInput = styled.input`
+	display: none;
+`
 
-	.tag-filter {
-		font-size: 18px;
-		font-weight: 500;
+export const Label = styled.label`
+	background-color: ${(props) => props.theme.colors.gray};
+	color: ${(props) => props.theme.colors.secondary};
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+`
 
-		background: none;
-		color: ${(props) => props.theme.colors.white};
+export const ButtonFile = styled.button`
+	background-color: ${(props) => props.theme.colors.gray};
+	color: ${(props) => props.theme.colors.secondary};
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+`
 
-		margin: 0 10px;
+export const ButtonFileCancel = styled.button`
+	background-color: ${(props) => props.theme.colors.warning};
+	color: ${(props) => props.theme.colors.secondary};
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+`
 
-		opacity: 0.4;
-		transition: opacity 0.3s;
+export const SelectedFileName = styled.p`
+	margin-top: 10px;
+	margin-bottom: 10px;
+`
 
-		&:hover {
-			opacity: 0.7;
-		}
-	}
-
-	.tag-filter-recurrent::after {
-		content: '';
-		display: block;
-		width: 55px;
-		margin: 0 auto;
-		border-bottom: 10px solid ${(props) => props.theme.colors.success};
-	}
-
-	.tag-filter-eventual::after {
-		content: '';
-		display: block;
-		width: 55px;
-		margin: 0 auto;
-		border-bottom: 10px solid ${(props) => props.theme.colors.warning};
-	}
-
-	.tag-actived {
-		opacity: 1;
-	}
+export const FileUploadButton = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: start;
+	margin-bottom: 40px;
+	gap: 20px;
 `
